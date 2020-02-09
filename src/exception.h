@@ -1,3 +1,4 @@
+#pragma once
 #if !defined(EXCEPTION)
 #define EXCEPTION
 #include <string>
@@ -23,5 +24,11 @@ class StackException : public DefaultException
 {
 public:
 	StackException(string);
+};
+
+class UnsuportedOperationException : public DefaultException
+{
+public:
+	UnsuportedOperationException(string);
 };
 #endif

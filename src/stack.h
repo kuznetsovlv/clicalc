@@ -1,5 +1,7 @@
+#pragma once
 #if !defined(STACK)
 #define STACK
+#include "exception.h"
 template<class T>
 class Stack
 {

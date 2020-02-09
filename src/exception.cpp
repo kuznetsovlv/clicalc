@@ -6,6 +6,6 @@ string DefaultException::getMessage()
 	return message;
 }
 
-StackException::StackException(string msg) : DefaultException(msg)
-{
-}
+StackException::StackException(string msg) : DefaultException(msg) {}
+
+UnsuportedOperationException::UnsuportedOperationException(string operation) : DefaultException("Unsuported operation " + operation) {}

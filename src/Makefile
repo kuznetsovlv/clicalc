@@ -1,14 +1,15 @@
 #Makefile
-objects = main.o exception.o
+objects = main.o exception.o operation.o
 
 .PHONY: all
 all: clicalc
 
 clicalc: $(objects)
-	gcc -o clicalc $(objects) -lstdc++
+	gcc -o clicalc $(objects) -lstdc++ -lm
 
-main.o: exception.h stack.h
+main.o: exception.h stack.h operation.h
 exception.o: exception.h
+operation.o: operation.h
 
 .PHONY: clean
 clean:
