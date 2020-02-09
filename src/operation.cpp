@@ -1,46 +1,132 @@
 #include <cmath>
+#include <cstring>
 #include "operation.h"
 
-OperationPriority ImediateOperation::getPriority()
+long double power(long double a, long double b)
 {
-	return imediate;
+	return pow(a, b);
 }
 
-OperationPriority PrimaryOperation::getPriority()
+long double product(long double a, long double b)
 {
-	return primary;
+	return a * b;
 }
 
-OperationPriority SecondaryOperation::getPriority()
+long double divide(long double a, long double b)
 {
-	return secondary;
+	return a / b;
 }
 
-long double PowerOperation::complete(Stack<long double>& stack)
+long double add(long double a, long double b)
 {
-	long double p = stack.pop();
-
-	return pow(stack.pop(), p);
+	return a + b;
 }
 
-long double ProductOperation::complete(Stack<long double>& stack)
+long double subtract(long double a, long double b)
 {
-	return stack.pop() * stack.pop();
+	return a - b;
 }
 
-long double DivideOperation::complete(Stack<long double>& stack)
-{
-	long double x = stack.pop();
+Operation* Operation::pow = nullptr;
+Operation* Operation::prod = nullptr;
+Operation* Operation::div = nullptr;
+Operation* Operation::sum = nullptr;
+Operation* Operation::subtr = nullptr;
 
-	return stack.pop() / x;
+Operation::Operation(){};
+
+Operation::Operation(OperationPriority priority, long double(*operation)(long double, long double)):priority(priority),operation(operation){};
+
+Operation::Operation(Operation& op){};
+
+void Operation::operator = (Operation&){};
+
+Operation* Operation::getPow()
+{
+	if(!pow)
+	{
+		pow = new Operation(imediate, power);
+	}
+
+	return pow;
 }
 
-long double SumOperation::complete(Stack<long double>& stack)
+Operation* Operation::getProd()
 {
-	return stack.pop() + stack.pop();
+	if(!prod)
+	{
+		prod = new Operation(primary, product);
+	}
+
+	return prod;
 }
 
-long double SubstrOperation::complete(Stack<long double>& stack)
+Operation* Operation::getDiv()
 {
-	return -stack.pop() + stack.pop();
+	if(!div)
+	{
+		div = new Operation(primary, divide);
+	}
+
+	return div;
+}
+
+Operation* Operation::getSum()
+{
+	if(!sum)
+	{
+		sum = new Operation(secondary, add);
+	}
+
+	return sum;
+}
+
+Operation* Operation::getSubtr()
+{
+	if(!subtr)
+	{
+		subtr = new Operation(secondary, subtract);
+	}
+
+	return subtr;
+}
+
+Operation* Operation::getOperation(string op)
+{
+	if(!op.compare("^"))
+	{
+		return getPow();
+	}
+	else if(!op.compare("*"))
+	{
+		return getProd();
+	}
+	else if(!op.compare("/"))
+	{
+		return getDiv();
+	}
+	else if(!op.compare("+"))
+	{
+		return getSum();
+	}
+	else if(!op.compare("-"))
+	{
+		return getSubtr();
+	}
+	else
+	{
+		throw UnsuportedOperationException(op);
+	}
+}
+
+OperationPriority Operation::getPriority()
+{
+	return priority;
+}
+
+long double Operation::complete(Stack<long double>& stack)
+{
+	long double b = stack.pop();
+	long double a = stack.pop();
+	return operation(a, b);
 }

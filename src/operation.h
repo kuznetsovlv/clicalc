@@ -3,60 +3,38 @@
 #define OPERATION
 #include "stack.h"
 #include "exception.h"
+#include <string>
 enum OperationPriority {imediate, primary, secondary};
 
 class Operation
 {
-public:
-	virtual OperationPriority getPriority() = 0;
-	virtual long double complete(Stack<long double>&) = 0;
-};
+	Operation();
 
-class ImediateOperation : public Operation
-{
+	Operation(OperationPriority, long double (*)(long double, long double));
+
+	Operation(Operation&);
+
+	void operator = (Operation&);
+
+	OperationPriority priority;
+
+	long double (*operation)(long double, long double);
+
+	static Operation *pow;
+	static Operation *prod;
+	static Operation *div;
+	static Operation *sum;
+	static Operation *subtr;
+
+	static Operation* getPow();
+	static Operation* getProd();
+	static Operation* getDiv();
+	static Operation* getSum();
+	static Operation* getSubtr();
+
 public:
+	static Operation* getOperation(string);
 	OperationPriority getPriority();
-};
-
-class PrimaryOperation : public Operation
-{
-public:
-	OperationPriority getPriority();
-};
-
-class SecondaryOperation : public Operation
-{
-public:
-	OperationPriority getPriority();
-};
-
-class PowerOperation : public ImediateOperation
-{
-public:
-	long double complete(Stack<long double>&);
-};
-
-class ProductOperation : public PrimaryOperation
-{
-public:
-	long double complete(Stack<long double>&);
-};
-
-class DivideOperation : public PrimaryOperation
-{
-public:
-	long double complete(Stack<long double>&);
-};
-
-class SumOperation : public SecondaryOperation
-{
-public:
-	long double complete(Stack<long double>&);
-};
-
-class SubstrOperation : public SecondaryOperation
-{
-public:
 	long double complete(Stack<long double>&);
 };
 #endif
