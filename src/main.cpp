@@ -28,5 +28,9 @@ int main(int argc, char **args)
 	op = Operation::getOperation("-");
 	cout << op->getPriority() << " " << op->complete(s) << endl;
 
+	s.push(-12.49);
+	op = Operation::getOperation("abs");
+	cout << op->getPriority() << " " << op->complete(s) << endl;
+
 	return 0;
 }

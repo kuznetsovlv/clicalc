@@ -32,20 +32,21 @@ Operation* Operation::prod = nullptr;
 Operation* Operation::div = nullptr;
 Operation* Operation::sum = nullptr;
 Operation* Operation::subtr = nullptr;
+Operation* Operation::absolute = nullptr;
 
 Operation::Operation(){};
 
-Operation::Operation(OperationPriority priority, long double(*operation)(long double, long double)):priority(priority),operation(operation){};
+Operation::Operation(OperationPriority priority):priority(priority){}
 
-Operation::Operation(Operation& op){};
+Operation::Operation(Operation& op){}
 
-void Operation::operator = (Operation&){};
+void Operation::operator = (Operation&){}
 
 Operation* Operation::getPow()
 {
 	if(!pow)
 	{
-		pow = new Operation(imediate, power);
+		pow = new BinOperation(primary, power);
 	}
 
 	return pow;
@@ -55,7 +56,7 @@ Operation* Operation::getProd()
 {
 	if(!prod)
 	{
-		prod = new Operation(primary, product);
+		prod = new BinOperation(secondary, product);
 	}
 
 	return prod;
@@ -65,7 +66,7 @@ Operation* Operation::getDiv()
 {
 	if(!div)
 	{
-		div = new Operation(primary, divide);
+		div = new BinOperation(secondary, divide);
 	}
 
 	return div;
@@ -75,7 +76,7 @@ Operation* Operation::getSum()
 {
 	if(!sum)
 	{
-		sum = new Operation(secondary, add);
+		sum = new BinOperation(last, add);
 	}
 
 	return sum;
@@ -85,10 +86,20 @@ Operation* Operation::getSubtr()
 {
 	if(!subtr)
 	{
-		subtr = new Operation(secondary, subtract);
+		subtr = new BinOperation(last, subtract);
 	}
 
 	return subtr;
+}
+
+Operation* Operation::getAbs()
+{
+	if(!absolute)
+	{
+		absolute = new MonoOperation(primary, abs);
+	}
+
+	return absolute;
 }
 
 Operation* Operation::getOperation(string op)
@@ -113,6 +124,10 @@ Operation* Operation::getOperation(string op)
 	{
 		return getSubtr();
 	}
+	else if(!op.compare("abs"))
+	{
+		return getAbs();
+	}
 	else
 	{
 		throw UnsuportedOperationException(op);
@@ -124,9 +139,26 @@ OperationPriority Operation::getPriority()
 	return priority;
 }
 
-long double Operation::complete(Stack<long double>& stack)
+BinOperation::BinOperation(){}
+
+BinOperation::BinOperation(OperationPriority priority, long double (*operation)(long double, long double)):Operation(priority),operation(operation){}
+
+BinOperation::BinOperation(BinOperation& op){}
+
+long double BinOperation::complete(Stack<long double>& stack)
 {
 	long double b = stack.pop();
 	long double a = stack.pop();
 	return operation(a, b);
+}
+
+MonoOperation::MonoOperation(){}
+
+MonoOperation::MonoOperation(OperationPriority priority, long double (*operation)(long double)):Operation(priority),operation(operation){}
+
+MonoOperation::MonoOperation(MonoOperation& op){}
+
+long double MonoOperation::complete(Stack<long double>& stack)
+{
+	return operation(stack.pop());
 }
