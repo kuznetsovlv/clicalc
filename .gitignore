@@ -1,2 +1,5 @@
 clicalc
 *.o
+*.so
+*.xml
+*.test
