@@ -1,13 +1,16 @@
 #Makefile
 srcDir = ./src
-testDir = ./test/support
-#tests = 
+testDir = ./tests
 
-#.PHONY: tests $(tests) clean
-#test: $(tests)
+.PHONY: all test build clean
+all: test build
 
-test/support:
-	mkdir -p $(testDir)
+test:
+	cd $(testDir) && make test
+
+build:
+	cd $(srcDir) && make all
 
 clean:
-	cd $(srcDir) && make clean
+	sh ./clean.sh $(srcDir)
+	sh ./clean.sh $(testDir)

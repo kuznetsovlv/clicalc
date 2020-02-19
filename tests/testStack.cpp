@@ -12,14 +12,14 @@ class TestStack : public CppUnit::TestFixture
 	CPPUNIT_TEST_SUITE_END();
 
 public:
-	void setUp(void);
-	void tearDown(void);
+	void setUp();
+	void tearDown();
 
 protected:
-	void testWithLongDouble(void);
+	void testWithLongDouble();
 };
 
-void TestStack::testWithLongDouble(void)
+void TestStack::testWithLongDouble()
 {
 	Stack<long double> stack;
 
@@ -34,8 +34,8 @@ void TestStack::testWithLongDouble(void)
 	CPPUNIT_ASSERT(0 == stack.pop());
 }
 
-void TestStack::setUp(void){}
-void TestStack::tearDown(void){}
+void TestStack::setUp(){}
+void TestStack::tearDown(){}
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TestStack);
 
