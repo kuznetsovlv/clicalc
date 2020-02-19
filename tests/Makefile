@@ -13,6 +13,8 @@ testStack.o: test.h
 
 exception.o: $(srcDir)/exception.h
 	gcc -c $(srcDir)/exception.cpp -o exception.o
+operation.o: $(srcDir)/operation.h
+	gcc -c $(srcDir)/operation.cpp -o operation.o
 
 .PHONY: clean
 clean:
