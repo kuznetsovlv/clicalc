@@ -1,11 +1,18 @@
 #Makefile
+srcDir = ../src
+stackPath = $(srcDir)/stack.h
 
 .PHONY: test
 test: testStack.test
 	./testStack.test
 
-testStack.test: ../src/exception.cpp ../src/exception.h ../src/stack.h
-	gcc -o testStack.test ../src/exception.cpp testStack.cpp  -lcppunit -lstdc++
+testStack.test: testStack.o exception.o $(stackPath)
+	gcc -o testStack.test exception.o testStack.o  -lcppunit -lstdc++
+
+testStack.o: test.h
+
+exception.o: $(srcDir)/exception.h
+	gcc -c $(srcDir)/exception.cpp -o exception.o
 
 .PHONY: clean
 clean:

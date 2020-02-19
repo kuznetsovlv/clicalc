@@ -13,4 +13,4 @@ operation.o: operation.h
 
 .PHONY: clean
 clean:
-	-rm -f *.o *.so 2>/dev/null
+	-rm -f clicalc *.o *.so 2>/dev/null
