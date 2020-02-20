@@ -5,7 +5,7 @@
 using namespace CppUnit;
 using namespace std;
 
-class TestStack : public CppUnit::TestFixture
+class TestStack : public TestFixture
 {
 	CPPUNIT_TEST_SUITE(TestStack);
 	CPPUNIT_TEST(testWithLongDouble);
