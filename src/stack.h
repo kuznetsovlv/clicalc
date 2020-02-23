@@ -18,6 +18,7 @@ public:
 
 	void push(T);
 	T pop();
+	T top();
 	bool isEmpty();
 
 	Stack<T>& operator = (Stack<T>&);
@@ -106,6 +107,16 @@ T Stack<T>::pop()
 	}
 
 	return v;
+}
+
+template<class T>
+T Stack<T>::top()
+{
+	if(empty)
+	{
+		throw StackException("Extracting value from empty stack.");
+	}
+	return value;
 }
 
 template<class T>

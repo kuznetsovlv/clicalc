@@ -28,10 +28,19 @@ void TestStack::testWithLongDouble()
 	stack.push(-1.23);
 	stack.push(3.6709E-123);
 
+	CPPUNIT_ASSERT(!stack.isEmpty());
+	CPPUNIT_ASSERT(3.6709E-123 == stack.top());
 	CPPUNIT_ASSERT(3.6709E-123 == stack.pop());
+	CPPUNIT_ASSERT(!stack.isEmpty());
+	CPPUNIT_ASSERT(-1.23 == stack.top());
 	CPPUNIT_ASSERT(-1.23 == stack.pop());
+	CPPUNIT_ASSERT(!stack.isEmpty());
+	CPPUNIT_ASSERT(12.56 == stack.top());
 	CPPUNIT_ASSERT(12.56 == stack.pop());
+	CPPUNIT_ASSERT(!stack.isEmpty());
+	CPPUNIT_ASSERT(0 == stack.top());
 	CPPUNIT_ASSERT(0 == stack.pop());
+	CPPUNIT_ASSERT(stack.isEmpty());
 }
 
 void TestStack::setUp(){}
