@@ -31,4 +31,16 @@ class UnsuportedOperationException : public DefaultException
 public:
 	UnsuportedOperationException(string);
 };
+
+class BuildException : public DefaultException
+{
+public:
+	BuildException(string);
+};
+
+class BuildOperationException : public BuildException
+{
+public:
+	BuildOperationException(string);
+};
 #endif

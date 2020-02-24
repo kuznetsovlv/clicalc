@@ -129,6 +129,6 @@ template<class T>
 Stack<T>& Stack<T>::operator = (Stack<T>& stack)
 {
 	copy(stack);
-	return this;
+	return *this;
 }
 #endif
