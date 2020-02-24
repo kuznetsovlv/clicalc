@@ -38,10 +38,6 @@ Operation::Operation(){};
 
 Operation::Operation(OperationPriority priority):priority(priority){}
 
-Operation::Operation(Operation& op){}
-
-void Operation::operator = (Operation&){}
-
 Operation* Operation::getPow()
 {
 	if(!pow)

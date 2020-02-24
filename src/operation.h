@@ -8,9 +8,9 @@ enum OperationPriority {imediate, primary, secondary, last};
 
 class Operation
 {
-	Operation(Operation&);
+	Operation(Operation&) = delete;
 
-	void operator = (Operation&);
+	Operation& operator = (Operation&) = delete;
 
 	OperationPriority priority;
 
