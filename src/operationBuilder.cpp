@@ -36,7 +36,7 @@ OperationBuilder& OperationBuilder::operator = (OperationBuilder& opB)
 
 OperationBuilder& OperationBuilder::with(char ch)
 {
-	Builder<Operation*>::with(ch);
+	Builder<Operation>::with(ch);
 	++last;
 	if(last >= LENGTH) throw BuildOperationException("Too long operation name \"" + string(opName) + ch + "\".");
 
@@ -48,6 +48,6 @@ OperationBuilder& OperationBuilder::with(char ch)
 Operation* OperationBuilder::build()
 {
 	if(last < 0) throw BuildOperationException("Builder not initialised");
-	Builder<Operation*>::build();
+	Builder<Operation>::build();
 	return Operation::getOperation(opName);
 }

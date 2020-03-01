@@ -13,3 +13,5 @@ UnsuportedOperationException::UnsuportedOperationException(string operation) : D
 BuildException::BuildException(string msg) : DefaultException(msg) {}
 
 BuildOperationException::BuildOperationException(string msg) : BuildException(msg) {}
+
+BuildValueException::BuildValueException(string msg) : BuildException(msg) {}

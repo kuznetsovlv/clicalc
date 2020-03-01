@@ -6,7 +6,7 @@
 #include "operation.h"
 #include "exception.h"
 
-class OperationBuilder : public Builder<Operation*>
+class OperationBuilder : public Builder<Operation>
 {
 	char *opName;
 	int last;

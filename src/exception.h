@@ -43,4 +43,10 @@ class BuildOperationException : public BuildException
 public:
 	BuildOperationException(string);
 };
+
+class BuildValueException: public BuildException
+{
+public:
+	BuildValueException(string);
+};
 #endif

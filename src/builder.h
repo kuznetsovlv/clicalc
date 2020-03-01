@@ -18,7 +18,7 @@ protected:
 	Builder();
 public:
 	virtual Builder<T>& with(char) = 0;
-	virtual T build() = 0;
+	virtual T* build() = 0;
 };
 
 template<class T>
@@ -32,7 +32,7 @@ Builder<T>& Builder<T>::with(char ch)
 }
 
 template<class T>
-T Builder<T>::build()
+T* Builder<T>::build()
 {
 	if(built) throw BuildException("Using finished builder");
 	built = true;
