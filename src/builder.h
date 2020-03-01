@@ -4,10 +4,16 @@
 #include "exception.h"
 
 template<class T>
-class Builder
+class WithChar
+{
+	virtual T& with(char) = 0;
+};
+
+template<class T>
+class Builder : public WithChar<Builder<T>>
 {
 protected:
-	bool builded;
+	bool built;
 
 	Builder();
 public:
@@ -16,20 +22,20 @@ public:
 };
 
 template<class T>
-Builder<T>::Builder():builded(false) {};
+Builder<T>::Builder():built(false) {};
 
 template<class T>
 Builder<T>& Builder<T>::with(char ch)
 {
-	if(builded) throw BuildException("Using finished builder");
+	if(built) throw BuildException("Using finished builder");
 	return *this;
 }
 
 template<class T>
 T Builder<T>::build()
 {
-	if(builded) throw BuildException("Using finished builder");
-	builded = true;
+	if(built) throw BuildException("Using finished builder");
+	built = true;
 	return NULL;
 }
 #endif
