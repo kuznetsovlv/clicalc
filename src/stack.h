@@ -18,8 +18,8 @@ public:
 
 	void push(T);
 	T pop();
-	T top();
-	bool isEmpty();
+	T top() const;
+	bool isEmpty() const;
 
 	Stack<T>& operator = (Stack<T>&);
 };
@@ -110,7 +110,7 @@ T Stack<T>::pop()
 }
 
 template<class T>
-T Stack<T>::top()
+T Stack<T>::top() const
 {
 	if(empty)
 	{
@@ -120,7 +120,7 @@ T Stack<T>::top()
 }
 
 template<class T>
-bool Stack<T>::isEmpty()
+bool Stack<T>::isEmpty() const
 {
 	return empty;
 }
