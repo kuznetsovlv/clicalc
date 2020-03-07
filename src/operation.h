@@ -34,7 +34,7 @@ protected:
 	static Operation* getAbs();
 
 public:
-	static Operation* getOperation(string);
+	static Operation* getOperation(std::string);
 	OperationPriority getPriority();
 	virtual long double complete(Stack<long double>&) = 0;
 };

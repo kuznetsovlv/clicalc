@@ -2,51 +2,52 @@
 #if !defined(EXCEPTION)
 #define EXCEPTION
 #include <string>
-using namespace std;
+#include <exception>
 
-class Exception
+class Exception : public std::exception
 {
+	std::string message;
+
 public:
-	virtual string getMessage() = 0;
+	Exception(std::string);
+	Exception(std::exception&);
+
+	std::string getMessage();
+	std::string what();
 };
 
-class DefaultException : public Exception
+class StackException : public Exception
 {
-	string message;
-
 public:
-	DefaultException(string msg);
-
-	string getMessage();
+	StackException(std::string);
+	StackException(std::exception&);
 };
 
-class StackException : public DefaultException
+class UnsuportedOperationException : public Exception
 {
 public:
-	StackException(string);
+	UnsuportedOperationException(std::string);
+	UnsuportedOperationException(std::exception&);
 };
 
-class UnsuportedOperationException : public DefaultException
+class BuildException : public Exception
 {
 public:
-	UnsuportedOperationException(string);
-};
-
-class BuildException : public DefaultException
-{
-public:
-	BuildException(string);
+	BuildException(std::string);
+	BuildException(std::exception&);
 };
 
 class BuildOperationException : public BuildException
 {
 public:
-	BuildOperationException(string);
+	BuildOperationException(std::string);
+	BuildOperationException(std::exception&);
 };
 
 class BuildValueException: public BuildException
 {
 public:
-	BuildValueException(string);
+	BuildValueException(std::string);
+	BuildValueException(std::exception&);
 };
 #endif

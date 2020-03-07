@@ -1,6 +1,7 @@
 #include <cmath>
 #include <cstring>
 #include "operation.h"
+using namespace std;
 
 long double power(long double a, long double b)
 {

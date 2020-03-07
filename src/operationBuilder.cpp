@@ -1,4 +1,5 @@
 #include "operationBuilder.h"
+using namespace std;
 
 const int LENGTH = 4;
 

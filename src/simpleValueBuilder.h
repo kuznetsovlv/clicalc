@@ -1,17 +1,16 @@
 #pragma once
 #if !defined(SIMPLE_VALUE_BUILDER)
 #define SIMPLE_VALUE_BUILDER
+#include <string>
 #include "valueBuilder.h"
 
 class SimpleValueBuilder : public ValueBuilder
 {
-	long double value;
-	bool started;
-	bool negate;
+	std::string str;
 	bool withDecimal;
-	unsigned power;
-
-	void throwException(char) const;
+	unsigned exp;
+	bool started;
+	SimpleValueBuilder *b;
 
 public:
 	SimpleValueBuilder();

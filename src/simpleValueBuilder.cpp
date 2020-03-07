@@ -1,60 +1,54 @@
 #include <cmath>
-#include <string>
 #include "valueBuilder.h"
 #include "simpleValueBuilder.h"
+using namespace std;
 
-SimpleValueBuilder::SimpleValueBuilder():ValueBuilder(),value(0),started(false),negate(false),withDecimal(false),power(0) {};
-
-void SimpleValueBuilder::throwException(char ch) const
-{
-	throw BuildValueException("Incorrect character \"" + string({ch}) + "\"");
-}
+SimpleValueBuilder::SimpleValueBuilder():ValueBuilder(),str(""),withDecimal(false),exp(0),started(false),b(nullptr){};
 
 SimpleValueBuilder& SimpleValueBuilder::with(char ch)
 {
 	ValueBuilder::with(ch);
-
-	if(ch >= '0' && ch <= '9')
+	if(ch != ' ' && ch != '\t')
 	{
-		if(withDecimal)
+		if(b)
 		{
-			value += (ch - '0') / pow(10, power++);
+			b->with(ch);
+			return *this;
 		}
-		else
+		switch (ch)
 		{
-			value *= 10;
-			value += ch - '0';
-		}
-	}
-	else
-	{
-		switch(ch)
-		{
+			case '.':
+				if(withDecimal)
+				{
+					throw BuildValueException("Dublicated separator.");
+				}
+				withDecimal = true;
+				break;
 			case '-':
 			case '+':
-				if(!started)
+				if(started)
 				{
-					negate = ch == '+';
-				}
-				else
-				{
-					throwException(ch);
+					throw BuildValueException(string("Symbol ") + ch + " is not available except of begining.");
 				}
 				break;
-			case '.':
-					if(withDecimal)
-					{
-						throwException(ch);
-					}
-					else
-					{
-						withDecimal = true;
-					}
-					break;
-			default: throwException(ch);
+			case 'e':
+			case 'E':
+				b = new SimpleValueBuilder();
+				return *this;
+			default:
+				if(ch < '0' || ch > '9')
+				{
+					throw BuildValueException(string("Unsuported symbol: \"") + ch + "\".");
+				}
+				else if(withDecimal)
+				{
+					++exp;
+				}
 		}
+		str += ch;
+		started = true;
 	}
-	started = true;
+
 	return *this;
 }
 
@@ -62,7 +56,19 @@ long double* SimpleValueBuilder::build()
 {
 	ValueBuilder::build();
 
-	long double *v = new long double();
-	*v = negate ? -value : value;
+	long double *v = new(long double);
+	try
+	{
+		long double tmp = pow(10, exp);
+		*v = trunc(tmp * stold(str)) / tmp;
+		if(b)
+		{
+			*v *= pow(10, *(b->build()));
+		}
+	}
+	catch(exception& e)
+	{
+		throw BuildValueException(e);
+	}
 	return v;
 }
