@@ -8,7 +8,7 @@
 
 class ExpressionCalculator : public ValueBuilder
 {
-	enum state {init, operation, value, expression};
+	enum state {init, operation, value, expression, cleared};
 
 	state currentState;
 	unsigned parentheses;
@@ -16,6 +16,13 @@ class ExpressionCalculator : public ValueBuilder
 	Stack<Operation*> operations;
 	OperationBuilder* opBuilder;
 	ValueBuilder* vBuilder;
+
+	void withExpression(char);
+	void openParentheses();
+	void clear();
+	void clearOperation();
+	void clearValue();
+	void multiply();
 
 public:
 	ExpressionCalculator();

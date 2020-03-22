@@ -1,4 +1,6 @@
+#include <string>
 #include "operationBuilder.h"
+#include "exception.h"
 using namespace std;
 
 const int LENGTH = 4;
@@ -51,4 +53,9 @@ Operation* OperationBuilder::build()
 	if(last < 0) throw BuildOperationException("Builder not initialised");
 	Builder<Operation>::build();
 	return Operation::getOperation(opName);
+}
+
+bool OperationBuilder::isOperator()
+{
+	return !last && Operation::isOperator(*opName);
 }

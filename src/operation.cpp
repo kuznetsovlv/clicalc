@@ -34,6 +34,7 @@ Operation* Operation::div = nullptr;
 Operation* Operation::sum = nullptr;
 Operation* Operation::subtr = nullptr;
 Operation* Operation::absolute = nullptr;
+const char* Operation::operators = "+-*/!";
 
 Operation::Operation(){};
 
@@ -130,6 +131,15 @@ Operation* Operation::getOperation(string op)
 		throw UnsuportedOperationException(op);
 	}
 }
+
+bool Operation::isOperator(char ch)
+{
+	for(const char *s = operators; *s; ++s)
+		if(ch == *s)
+			return true;
+	return false;
+}
+
 
 OperationPriority Operation::getPriority()
 {

@@ -26,3 +26,9 @@ BuildOperationException::BuildOperationException(exception& exception):BuildExce
 
 BuildValueException::BuildValueException(string msg):BuildException(msg) {}
 BuildValueException::BuildValueException(exception& exception):BuildException(exception) {}
+
+ExpressionException::ExpressionException(string msg):BuildException(msg) {}
+ExpressionException::ExpressionException(exception& exception):BuildException(exception) {}
+
+UnbalancedParenthesesException::UnbalancedParenthesesException(string msg):ExpressionException(msg) {}
+UnbalancedParenthesesException::UnbalancedParenthesesException(exception& exception):ExpressionException(exception) {}

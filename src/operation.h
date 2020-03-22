@@ -34,7 +34,9 @@ protected:
 	static Operation* getAbs();
 
 public:
+	static const char* operators;
 	static Operation* getOperation(std::string);
+	static bool isOperator(char);
 	OperationPriority getPriority();
 	virtual long double complete(Stack<long double>&) = 0;
 };

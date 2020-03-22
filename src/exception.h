@@ -44,10 +44,24 @@ public:
 	BuildOperationException(std::exception&);
 };
 
-class BuildValueException: public BuildException
+class BuildValueException : public BuildException
 {
 public:
 	BuildValueException(std::string);
 	BuildValueException(std::exception&);
+};
+
+class ExpressionException : public BuildException
+{
+public:
+	ExpressionException(std::string);
+	ExpressionException(std::exception&);
+};
+
+class UnbalancedParenthesesException : public ExpressionException
+{
+public:
+	UnbalancedParenthesesException(std::string);
+	UnbalancedParenthesesException(std::exception&);
 };
 #endif
