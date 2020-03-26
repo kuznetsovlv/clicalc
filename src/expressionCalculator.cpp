@@ -27,6 +27,19 @@ void ExpressionCalculator::openParentheses()
 	}
 }
 
+void ExpressionCalculator::closeParentheses()
+{
+	if(!parentheses)
+		throw UnbalancedParenthesesException("Extra close parantheses");
+
+	--parentheses;
+
+	if(parentheses)
+		vBuilder->with(')');
+	else
+		clear();
+}
+
 void ExpressionCalculator::clear()
 {
 	switch(currentState)
@@ -67,11 +80,16 @@ ExpressionCalculator& ExpressionCalculator::with(char ch)
 
 	if(ch == '(')
 		openParentheses();
+	if(ch == ')')
+		closeParentheses();
 	return *this;
 }
 
 long double* ExpressionCalculator::build()
 {
 	ValueBuilder::build();
+
+	if(parentheses)
+		throw UnbalancedParenthesesException("Unclosed parentheses");
 	return new long double[1];
 }

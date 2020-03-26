@@ -18,7 +18,10 @@ class ExpressionCalculator : public ValueBuilder
 	ValueBuilder* vBuilder;
 
 	void withExpression(char);
+
 	void openParentheses();
+	void closeParentheses();
+
 	void clear();
 	void clearOperation();
 	void clearValue();

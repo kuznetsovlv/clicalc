@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "exception.h"
 #include "calculate.h"
 using namespace std;
@@ -9,12 +10,13 @@ int main(int argc, char **args)
 	{
 		while(--argc)
 		{
-			cout << calculate(*(++args)) << endl;
+			long double res = calculate(*(++args));
+			cout << *args << " = " << res << endl;
 		}
 	}
-	catch(exception e)
+	catch(exception& e)
 	{
-		cerr << e.what() << endl;
+		cerr << e.what() << " in " << *args << endl;
 	}
 	return 0;
 }

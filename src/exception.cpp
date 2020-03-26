@@ -3,13 +3,13 @@ using namespace std;
 
 Exception::Exception(string msg):message(msg){}
 Exception::Exception(exception& exception):message(exception.what()){}
-string Exception::getMessage()
+string Exception::getMessage() const
 {
 	return message;
 }
-string Exception::what()
+const char* Exception::what() const noexcept
 {
-	return message;
+	return message.c_str();
 }
 
 StackException::StackException(string msg):Exception(msg) {}

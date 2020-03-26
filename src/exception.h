@@ -12,8 +12,8 @@ public:
 	Exception(std::string);
 	Exception(std::exception&);
 
-	std::string getMessage();
-	std::string what();
+	std::string getMessage() const;
+	const char* what() const throw();
 };
 
 class StackException : public Exception
