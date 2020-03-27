@@ -82,6 +82,8 @@ ExpressionCalculator& ExpressionCalculator::with(char ch)
 		openParentheses();
 	if(ch == ')')
 		closeParentheses();
+	if(currentState == expression)
+		vBuilder->with(ch);
 	return *this;
 }
 
