@@ -2,6 +2,7 @@
 #if !defined(EXPRESSION_CALCULATOR)
 #define EXPRESSION_CALCULATOR
 #include "valueBuilder.h"
+#include "simpleValueBuilder.h"
 #include "operationBuilder.h"
 #include "operation.h"
 #include "stack.h"
@@ -18,6 +19,8 @@ class ExpressionCalculator : public ValueBuilder
 	ValueBuilder* vBuilder;
 
 	void withExpression(char);
+	void withValueChar(char);
+	void withOperationChar(char);
 
 	void openParentheses();
 	void closeParentheses();

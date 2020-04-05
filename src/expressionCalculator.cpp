@@ -11,6 +11,30 @@ void ExpressionCalculator::withExpression(char ch)
 	vBuilder->with(ch);
 }
 
+void ExpressionCalculator::withValueChar(char ch)
+{
+	if(currentState != value)
+	{
+		clear();
+		currentState = value;
+		vBuilder = new SimpleValueBuilder();
+	}
+
+	vBuilder->with(ch);
+}
+
+void ExpressionCalculator::withOperationChar(char ch)
+{
+	if(currentState != expression || opBuilder->ready())
+	{
+		clear();
+		currentState = operation;
+		opBuilder = new OperationBuilder();
+	}
+
+	opBuilder->with(ch);
+}
+
 void ExpressionCalculator::openParentheses()
 {
 	++parentheses;
@@ -78,12 +102,22 @@ ExpressionCalculator& ExpressionCalculator::with(char ch)
 {
 	ValueBuilder::with(ch);
 
-	if(ch == '(')
-		openParentheses();
-	if(ch == ')')
-		closeParentheses();
-	if(currentState == expression)
-		vBuilder->with(ch);
+	if(ch != ' ' && ch != '\t')
+	{
+		if(ch == '(')
+			openParentheses();
+		else if(ch == ')')
+			closeParentheses();
+		else if(currentState == expression)
+			vBuilder->with(ch);
+		else if((ch >= '0' && ch <= '9') || ch == '.')
+			withValueChar(ch);
+		else if(currentState == init && (ch == '-' || ch == '+'))
+			withValueChar(ch);
+		else
+			withOperationChar(ch);
+	}
+
 	return *this;
 }
 
@@ -93,5 +127,16 @@ long double* ExpressionCalculator::build()
 
 	if(parentheses)
 		throw UnbalancedParenthesesException("Unclosed parentheses");
-	return new long double[1];
+
+	clear();
+
+	while(!operations.isEmpty())
+	{
+		long double v = operations.pop()->complete(values);
+		values.push(v);
+	}
+
+	long double* result = new(long double);
+	*result = values.pop();
+	return result;
 }

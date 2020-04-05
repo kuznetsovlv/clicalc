@@ -16,7 +16,7 @@ int main(int argc, char **args)
 	}
 	catch(exception& e)
 	{
-		cerr << e.what() << " in " << *args << endl;
+		cerr << "Error in " << *args << ": " << e.what() << endl;
 	}
 	return 0;
 }

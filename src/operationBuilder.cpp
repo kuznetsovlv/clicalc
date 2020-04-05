@@ -59,3 +59,8 @@ bool OperationBuilder::isOperator()
 {
 	return !last && Operation::isOperator(*opName);
 }
+
+bool OperationBuilder::ready()
+{
+	return isOperator() || last == LENGTH - 1;
+}

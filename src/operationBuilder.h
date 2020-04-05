@@ -23,5 +23,6 @@ public:
 	Operation* build();
 
 	bool isOperator();
+	bool ready();
 };
 #endif
