@@ -25,7 +25,7 @@ void ExpressionCalculator::withValueChar(char ch)
 
 void ExpressionCalculator::withOperationChar(char ch)
 {
-	if(currentState != expression || opBuilder->ready())
+	if(currentState != operation || opBuilder->ready())
 	{
 		clear();
 		currentState = operation;
@@ -102,7 +102,7 @@ ExpressionCalculator& ExpressionCalculator::with(char ch)
 {
 	ValueBuilder::with(ch);
 
-	if(ch != ' ' && ch != '\t')
+	if(currentState != value || (ch != ' ' && ch != '\t'))
 	{
 		if(ch == '(')
 			openParentheses();
