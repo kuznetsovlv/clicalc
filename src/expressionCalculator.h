@@ -28,7 +28,9 @@ class ExpressionCalculator : public ValueBuilder
 	void clear();
 	void clearOperation();
 	void clearValue();
+
 	void multiply();
+	void push(Operation*);
 
 public:
 	ExpressionCalculator();

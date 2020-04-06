@@ -60,7 +60,7 @@ long double* SimpleValueBuilder::build()
 	try
 	{
 		long double tmp = pow(10, exp);
-		*v = trunc(tmp * stold(str)) / tmp;
+		*v = str.compare("-") ? trunc(tmp * stold(str)) / tmp : -1;
 		if(b)
 		{
 			*v *= pow(10, *(b->build()));

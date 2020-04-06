@@ -25,6 +25,7 @@ void ExpressionCalculator::withValueChar(char ch)
 
 void ExpressionCalculator::withOperationChar(char ch)
 {
+	bool isValue = currentState == value;
 	if(currentState != operation || opBuilder->ready())
 	{
 		clear();
@@ -33,6 +34,9 @@ void ExpressionCalculator::withOperationChar(char ch)
 	}
 
 	opBuilder->with(ch);
+
+	if(isValue && !opBuilder->isOperator())
+		multiply();
 }
 
 void ExpressionCalculator::openParentheses()
@@ -81,21 +85,35 @@ void ExpressionCalculator::clear()
 
 void ExpressionCalculator::clearOperation()
 {
-	Operation *op = opBuilder->build();
+	push(opBuilder->build());
 	delete opBuilder;
-
-	if(op->getPriority() == imediate)
-		values.push(op->complete(values));
-	else if(!operations.isEmpty() && operations.top()->getPriority() <= op->getPriority())
-		values.push(operations.pop()->complete(values));
-	else
-		operations.push(op);
 }
 
 void ExpressionCalculator::clearValue()
 {
 	values.push(*(vBuilder->build()));
 	delete vBuilder;
+}
+
+void ExpressionCalculator::multiply()
+{
+	push(Operation::getOperation("*"));
+}
+
+void ExpressionCalculator::push(Operation* op)
+{
+	if(op->getPriority() == imediate)
+		values.push(op->complete(values));
+	else
+	{
+		if(!operations.isEmpty() && operations.top()->getPriority() <= op->getPriority())
+		{
+			Operation* prevOp = operations.pop();
+			values.push(prevOp->complete(values));
+			delete prevOp;
+		}
+		operations.push(op);
+	}
 }
 
 ExpressionCalculator& ExpressionCalculator::with(char ch)
@@ -132,7 +150,9 @@ long double* ExpressionCalculator::build()
 
 	while(!operations.isEmpty())
 	{
-		long double v = operations.pop()->complete(values);
+		Operation* op = operations.pop();
+		long double v = op->complete(values);
+		delete op;
 		values.push(v);
 	}
 
