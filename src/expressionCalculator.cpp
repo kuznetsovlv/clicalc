@@ -107,11 +107,7 @@ void ExpressionCalculator::push(Operation* op)
 	else
 	{
 		if(!operations.isEmpty() && operations.top()->getPriority() <= op->getPriority())
-		{
-			Operation* prevOp = operations.pop();
-			values.push(prevOp->complete(values));
-			delete prevOp;
-		}
+			values.push(operations.pop()->complete(values));
 		operations.push(op);
 	}
 }
@@ -150,9 +146,7 @@ long double* ExpressionCalculator::build()
 
 	while(!operations.isEmpty())
 	{
-		Operation* op = operations.pop();
-		long double v = op->complete(values);
-		delete op;
+		long double v = operations.pop()->complete(values);
 		values.push(v);
 	}
 
